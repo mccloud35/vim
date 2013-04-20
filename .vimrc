@@ -154,4 +154,7 @@
 
     " Nerd Tree open
     map <C-e> :NERDTreeToggle<CR>
+
+    " Basic C compile
+    map <D-S-F11> :w<CR>:make %:r<CR><CR>
 " }
