@@ -7,12 +7,19 @@
     filetype indent plugin on " Attempt to determine the type of a file 
     set autochdir " change dir automatically to working file's dir
     set tags=tags;/ " look up ctags until one is found
+
+    if has ('x') && has ('gui') " On Linux use + register for copy-paste
+        set clipboard=unnamedplus
+    elseif has ('gui')          " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
     
 " }
 
 " Search {
     set hlsearch " highlight searches, unless we press <C-L>
     set ignorecase " ignore case when searching
+    set incsearch " Find as you type search
     set smartcase " except when upper case is used
     nnoremap <C-L> :nohl<CR><C-L> " turn off highlighting until the next search
 " }"
@@ -43,8 +50,11 @@
 " }
 
 " GUI & Color schemes {
-    set background=dark
-    set colorscheme solarized
+    "set background=dark
+    colorscheme desert
+    "let g:solarized_termtrans=0
+    "let g:solarized_contrast="high"
+    "let g:solarized_visibility="high"
 
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
@@ -58,7 +68,7 @@
         endif
         if has('gui_macvim')
             set guifont=Andale\ Mono\ Regular:h14,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
-            set transparency=5      " Make the window slightly transparent
+            "set transparency=5      " Make the window slightly transparent
         endif
     else
         if &term == 'xterm' || &term == 'screen'
@@ -73,6 +83,9 @@
     set showcmd " Show partial commands in the last line of the screen
 " }
 
+" Pathogen {
+    call pathogen#infect()
+" }
 
 " Buffers {
     " Vim with default settings does not allow easy switching between multiple files
@@ -97,6 +110,28 @@
     " set autowriteall
 " }"
 
+" Functions {
+"
+    " Strip whitespace {
+    function! StripTrailingWhitespace()
+        " To disable the stripping of whitespace, add the following to your
+        " .vimrc.local file:
+        "   let g:spf13_keep_trailing_whitespace = 1
+        if !exists('g:spf13_keep_trailing_whitespace')
+            " Preparation: save last search, and cursor position.
+            let _s=@/
+            let l = line(".")
+            let c = col(".")
+            " do the business:
+            %s/\s\+$//e
+            " clean up: restore previous search history, and cursor position
+            let @/=_s
+            call cursor(l, c)
+        endif
+    endfunction
+    " }
+" }
+
 " Key Re-mappings {
 
     let mapleader = ','
@@ -116,4 +151,7 @@
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
     vnoremap > >gv
+
+    " Nerd Tree open
+    map <C-e> :NERDTreeToggle<CR>
 " }
