@@ -50,11 +50,11 @@
 " }
 
 " GUI & Color schemes {
-    "set background=dark
-    colorscheme desert
-    "let g:solarized_termtrans=0
-    "let g:solarized_contrast="high"
-    "let g:solarized_visibility="high"
+    set background=dark
+    colorscheme solarized
+    let g:solarized_termtrans=0
+    let g:solarized_contrast="high"
+    let g:solarized_visibility="high"
 
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
