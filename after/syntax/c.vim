@@ -260,9 +260,9 @@ hi def link cUserFunction cFunction
 hi def link cUserFunctionPointer cFunction
 
 " Delimiters
-syn match cDelimiter    "[();\\]"
+syn match cOperator "[();\\]"
 " foldmethod=syntax fix, courtesy of Ivan Freitas
-syn match cBraces display "[{}]"
+syn match cOperator display "[{}]"
 
 
 " Booleans
