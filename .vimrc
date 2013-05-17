@@ -6,7 +6,6 @@
     syntax on " enable syntax highlighting 
     filetype indent plugin on " Attempt to determine the type of a file 
     set autochdir " change dir automatically to working file's dir
-    set tags=tags;/ " look up ctags until one is found
 
     if has ('x') && has ('gui') " On Linux use + register for copy-paste
         set clipboard=unnamedplus
@@ -15,6 +14,13 @@
     endif
     
 " }
+
+" CTags {
+
+    set tags=tags;/ " look up ctags until one is found
+    
+" } 
+
 
 " Search {
     set hlsearch " highlight searches, unless we press <C-L>
@@ -132,6 +138,10 @@
     " }
 " }
 
+" Tag List {
+    let Tlist_GainFocus_On_ToggleOpen = 1
+" {
+
 " Key Re-mappings {
 
     let mapleader = ','
@@ -157,4 +167,10 @@
 
     " Basic C compile
     map <D-S-F11> :w<CR>:make %:r<CR><CR>
+
+    " build tags of your own project with Ctrl-F12
+    map <F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+    
+    " show tag list
+    nnoremap <silent> <F8> :TlistUpdate<CR> :TlistToggle<CR>
 " }
