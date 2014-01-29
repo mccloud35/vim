@@ -34,12 +34,21 @@
     set autoindent
     set backspace=eol,indent,start " Allow backspacing over autoindent, 
     "line breaks and start of insert action
-    set nowrap                      " Wrap long lines
+
+    " wrap lines visually without inserting line breaks
+    set wrap
+    set linebreak
+    set nolist  " list disables linebreak
+
+    " prevent vim entering line breaks automatically for pasted text
+    set textwidth=0
+    set wrapmargin=0
+
     set autoindent                  " Indent at the same level of the previous line
-    set shiftwidth=4                " Use indents of 4 spaces
-    set expandtab                   " Tabs are spaces, not tabs
-    "set tabstop=4                   " An indentation every four columns
-    set softtabstop=4               " Let backspace delete indent
+    set shiftwidth=8                " Use indents of 4 spaces
+    "set noexpandtab                   " Tabs are spaces, not tabs
+    set tabstop=8                   " An indentation every four columns
+    set softtabstop=8               " Let backspace delete indent
     "set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
@@ -56,7 +65,7 @@
 " }
 
 " GUI & Color schemes {
-    set background=dark
+    set background=light
     colorscheme solarized
     let g:solarized_termtrans=0
     let g:solarized_contrast="high"
@@ -68,12 +77,12 @@
         if has("gui_gtk2")
             set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         elseif has("gui_mac")
-            set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+            set guifont=Monaco:h12,Andale\ Mono\ Regular:h12,Menlo\ Regular:h12,Consolas\ Regular:h12,Courier\ New\ Regular:h14
         elseif has("gui_win32")
             set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
         endif
         if has('gui_macvim')
-            set guifont=Andale\ Mono\ Regular:h14,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+            set guifont=Monaco:h12,Andale\ Mono\ Regular:h13,Menlo\ Regular:h13,Consolas\ Regular:h12,Courier\ New\ Regular:h14
             "set transparency=5      " Make the window slightly transparent
         endif
     else
@@ -85,12 +94,18 @@
 " }
 
 " Command Line {
+    set wildmode=longest,list " Bash like path completion
     set wildmenu " Better command-line completion
     set showcmd " Show partial commands in the last line of the screen
 " }
 
 " Pathogen {
     call pathogen#infect()
+" }
+
+" Syntastic {
+    let g:syntastic_cpp_compiler = 'clang++'
+    let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 " }
 
 " Buffers {
@@ -147,10 +162,10 @@
     let mapleader = ','
 
     " easier movement in tabs and windows
-    map <C-J> <C-W>j<C-W>_
-    map <C-K> <C-W>k<C-W>_
-    map <C-L> <C-W>l<C-W>_
-    map <C-H> <C-W>h<C-W>_
+    map <C-J> <C-W>j
+    map <C-K> <C-W>k
+    map <C-L> <C-W>l
+    map <C-H> <C-W>h
 
     map <S-H> gT
     map <S-L> gt
@@ -173,4 +188,14 @@
     
     " show tag list
     nnoremap <silent> <F8> :TlistUpdate<CR> :TlistToggle<CR>
+
+    " append close bracket automatically
+    inoremap {      {}<Left>
+    inoremap {<CR>  {<CR>}<Esc>O
+    inoremap {{     {
+    inoremap {}     {}
+    
+    "map vsp to right
+    cnoremap vsp	rightbelow vsp 
+    cnoremap sp		leftabove sp 
 " }
